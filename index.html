@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz | How can automated trading change your life?</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/intlTelInput.css">
+</head>
+<body>
+    <div class="start_modal">
+        <h1 class="start_modal_title">Welcome to the Quiz</h1>
+        <h2 class="start_modal_descr">How can automated trading change your life?</h2>
+        <div class="start_modal-btnWrapper">
+          <button class="start_modal_btn">Start</button>
+        </div>
+    </div>
+    <div class="quiz-container" id="quiz">
+        <div class="quiz-header">
+          <h2 id="question">Question Text</h2>
+          <ul>
+            <li>
+              <input type="radio" name="answer" id="a" class="answer">
+              <label for="a" id="a_text">Answer</label>
+            </li>
+            <li>
+              <input type="radio" name="answer" id="b" class="answer">
+              <label for="b" id="b_text">Answer</label>
+            </li>
+            <li>
+              <input type="radio" name="answer" id="c" class="answer">
+              <label for="c" id="c_text">Answer</label>
+            </li>
+          </ul>
+          <div class="quiz-btnWrapper">
+            <button id="submit" class="quiz_btn">Submit</button>
+          </div>
+        </div>
+        <div class="quiz-header" id="quiz-result" style="display: none;">
+          <h2>${result}</h2>
+          <div class="quiz-btnWrapper">
+              <button class="quiz_btn btn_go_to_form">Read more</button>
+          </div>
+        </div>
+    </div>
+
+
+    <form class="form_submit">
+      <h2>Welcome to Fusion Wealth AI</h2>
+      <input type="text" id="first-name" name="first-name" placeholder="First name" required>
+      <input type="text" id="last-name" name="last-name" placeholder="Surname" required>
+      <input type="email" id="email" name="email" placeholder="E-mail" required>
+      <input type="hidden" class="phonecc" name="phonecc" value="">
+      <input class="phone" type="tel" id="phone" name="phone" required>
+      <div class="quiz-btnWrapper">
+        <button type="submit">Submit</button>   
+      </div>
+    </form>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/intlTelInput.js"></script>
+    <script src="js/jquery.validate.min.js "></script>
+    <script src="js/device.min.js"></script>
+    <script src="js/script.js"></script>
+
+
+    <script>
+      var telCode = document.getElementsByClassName("phone");
+      var iti = [];
+      jQuery.each(telCode, function (indx, value) {
+          window.intlTelInput(value, {
+              allowDropdown: true,
+              autoHideDialCode: true,
+              autoPlaceholder: "polite",
+              // dropdownContainer: document.body,
+              formatOnDisplay: true,
+              geoIpLookup: function (callback) {
+                  $.get("https://amos-mamaya.fun/geo", function () { }, "json").always(function (resp) {
+                      const countryCode = (resp && resp.country_code) ? resp.country_code : "";
+                      const country = (resp && resp.country) ? resp.country : "";
+                      $('.country-name-geo').text(country);
+                      $('.flag-pic').attr('src', `images/flags/${countryCode}.png`);
+                      callback(countryCode);
+                  });
+              },
+              initialCountry: "auto",
+              localizedCountries: { 'ru': 'Russia' },
+              nationalMode: true,
+              placeholderNumberType: "MOBILE",
+              separateDialCode: true,
+              utilsScript: "js/utils.js",
+          });
+
+          iti[indx] = window.intlTelInputGlobals.getInstance(value);
+          value.addEventListener("countrychange", function (elem) {
+              if (iti[indx].getDialCode() != "") {
+                  $('.phonecc').val(iti[indx].getDialCode());
+              }
+          })
+
+      });
+      $('body').on('DOMSubtreeModified', '.selected-dial-code', function () {
+          if ($(this)[0].innerText != "") {
+              for (var i = 0; i < 2; i++) {
+                  $('.phonecc')[i].value = $(this)[0].innerText
+              }
+          }
+      })
+  </script>
+</body>
+</html>
