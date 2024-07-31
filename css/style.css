@@ -19,7 +19,7 @@ body{
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 10px 2px rgba(100, 100, 100, 0.1);
-  width: 600px;
+  width: 900px;
 }
 .quiz-container,
 .form_submit {
@@ -99,6 +99,7 @@ ul li input{
   position: absolute;
   z-index: -1;
   opacity: 0;
+  width: 100%;
 }
 .form_submit input {
   border-radius: 3px;
@@ -106,4 +107,17 @@ ul li input{
   width: 100%;
   height: 55px;
   padding: 15px;
+}
+
+.question_number {
+  text-align: center;
+  font-size: 28px;
+  margin: 0;
+  font-weight: 500;
+  opacity: 0.6;
+}
+
+li.active {
+  border-color: #7b8bea;
+  color: #7b8bea;
 }

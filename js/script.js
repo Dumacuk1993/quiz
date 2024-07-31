@@ -59,6 +59,9 @@ const formWindow = document.querySelector('.form_submit')
 const resultWindow = document.getElementById('quiz-result')
 const quizHeader = document.querySelector('.quiz-header')
 const quizResultEl = document.querySelector('#quiz-result h2')
+const quizNumberEl = document.querySelector('.question_number--current')
+const quizNumberAllEl = document.querySelector('.question_number--all')
+const answersLiEls = document.querySelectorAll('.quiz-header li')
 
 let currentQuiz = 0
 
@@ -74,10 +77,13 @@ function loadQuiz() {
     questionEl.innerText = currentQuizData.question
     a_text.innerText = currentQuizData.a
     b_text.innerText = currentQuizData.b
+    quizNumberEl.innerText = currentQuiz + 1
+    quizNumberAllEl.innerText = quizData.length
     c_text.innerText = currentQuizData.c
 }
 function deselectAnswers() {
     answerEls.forEach(answerEl => answerEl.checked = false)
+    answersLiEls.forEach( li => li.classList.remove('active'))
 }
 function getSelected() {
     let answer
@@ -86,8 +92,26 @@ function getSelected() {
             answer = answerEl.id
         }
     })
+    
     return answer
 }
+
+answerEls.forEach(item => {
+    item.addEventListener('click', () => {
+        const answer = getSelected()
+    
+        console.log(answer);
+    
+        answersLiEls.forEach( li => {
+            if (li.id.includes(answer)) {
+                li.classList.add('active')
+            } else {
+                li.classList.remove('active')
+            }
+        })
+    })
+})
+
 submitBtn.addEventListener('click', () => {
     const answer = getSelected()
     if(answer) {
